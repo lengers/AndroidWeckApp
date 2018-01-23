@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
     ListView listView;
     int millis;
     TextView timerTextView;
+    CountDownTimer countDownTimer;
 
 
     @Override
@@ -50,14 +51,14 @@ public class MainActivity extends AppCompatActivity {
         listView.setAdapter(adapter);
 
         listView.setOnItemClickListener((parent, view, position, id) -> {
+            if (countDownTimer != null) {countDownTimer.cancel();}
             millis = arrayList.get(position).diff*60*1000;
             startTimer();
         });
     }
 
     private void startTimer() {
-        new CountDownTimer(millis, 1000) {
-
+        countDownTimer = new CountDownTimer(millis, 1000) {
             public void onTick(long millisUntilFinished) {
                 String time = String.format("%02d:%02d:%02d",
                         TimeUnit.MILLISECONDS.toHours(millisUntilFinished),
